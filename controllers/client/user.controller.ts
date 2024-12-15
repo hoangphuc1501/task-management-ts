@@ -1,11 +1,12 @@
+import { sendMail } from './../../helpers/sendMail.helper';
 import { User } from "../../models/user.model";
 import { Request, Response } from "express";
-// const ForgotPassword = require("../../models/forgot-password.model");
+import { ForgotPassword } from '../../models/forgot-password.model';
 import md5 from "md5";
 
 
 import {generateRandomString} from "../../helpers/generate.helper"
-// const sendMailHelper = require("../../helpers/sendMail.helper");
+import { generateRandomNumber } from '../../helpers/generate.helper';
 
 
 export const register = async (req: Request, res: Response) => {
@@ -76,48 +77,48 @@ export const login = async (req: Request, res: Response) => {
     })
 }
 
-// module.exports.forgotPassword = async (req, res) => {
-//     const email = req.body.email;
+export const forgotPassword = async (req:Request, res: Response) => {
+    const email = req.body.email;
 
-//     const existUser = await User.findOne({
-//         email: email,
-//         status: "active",
-//         deleted: false
-//     })
+    const existUser = await User.findOne({
+        email: email,
+        status: "active",
+        deleted: false
+    })
 
-//     if (!existUser) {
-//         res.json({
-//             code: "error",
-//             message: "Email không tồn tại!"
-//         });
-//         return;
-//     }
+    if (!existUser) {
+        res.json({
+            code: "error",
+            message: "Email không tồn tại!"
+        });
+        return;
+    }
 
-//     // việc 1 lưu thông tin email vàmã otp vào database
-//     const existEmailInForgotPassword = await ForgotPassword.findOne({
-//         email: email
-//     });
-//     if (!existEmailInForgotPassword) {
-//         const otp = generateHelper.generateRandomNumber(6);
+    // việc 1 lưu thông tin email vàmã otp vào database
+    const existEmailInForgotPassword = await ForgotPassword.findOne({
+        email: email
+    });
+    if (!existEmailInForgotPassword) {
+        const otp = generateRandomNumber(6);
 
-//         const data = {
-//             email: email,
-//             otp: otp,
-//             expireAt: Date.now() + 5 * 60 * 1000
-//         }
-//         const record = new ForgotPassword(data)
-//         await record.save();
+        const data = {
+            email: email,
+            otp: otp,
+            expireAt: Date.now() + 5 * 60 * 1000
+        }
+        const record = new ForgotPassword(data)
+        await record.save();
 
-//         // việc 2: gửi mã otp qua email cho user
-//         const subject = "Xác thực mã OTP";
-//         const text = `Mã xác thực của bạn là <b>${otp}</b>. Mã OTP có hiệu lực trong vòng 5 phút, vui lòng không cung cấp mã OTP cho bất kỳ ai.`;
-//         sendMailHelper.sendMail(email, subject, text);
-//     }
-//     res.json({
-//         code: "success",
-//         message: "Gửi mã OTP thành công!",
-//     })
-// }
+        // việc 2: gửi mã otp qua email cho user
+        const subject = "Xác thực mã OTP";
+        const text = `Mã xác thực của bạn là <b>${otp}</b>. Mã OTP có hiệu lực trong vòng 5 phút, vui lòng không cung cấp mã OTP cho bất kỳ ai.`;
+        sendMail(email, subject, text);
+    }
+    res.json({
+        code: "success",
+        message: "Gửi mã OTP thành công!",
+    })
+}
 
 // module.exports.otpPassword = async (req, res) => {
 //     const email = req.body.email;

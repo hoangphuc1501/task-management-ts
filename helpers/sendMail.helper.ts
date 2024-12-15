@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
+import nodemailer from "nodemailer";
 
-module.exports.sendMail = (email, subject, text) => {
+export const sendMail = (email:string, subject:string, text:string) => {
     // Create a transporter object
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -19,7 +19,7 @@ module.exports.sendMail = (email, subject, text) => {
         html: text
     };
     // Send the email
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error:any, info:any) {
         if (error) {
             console.log('Error:', error);
         } else {
@@ -28,7 +28,7 @@ module.exports.sendMail = (email, subject, text) => {
     });
 }
 
-module.exports.contactMail = (email,subject ,text) => {
+export const contactMail = (email:string, subject:string, text:string) => {
     // Create a transporter object
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -47,7 +47,7 @@ module.exports.contactMail = (email,subject ,text) => {
         text: text
     };
     // Send the email
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error:any, info:any) {
         if (error) {
             console.log('Error:', error);
         } else {
