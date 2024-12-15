@@ -145,33 +145,33 @@ export const otpPassword = async (req: Request, res: Response) => {
     })
 }
 
-// module.exports.resetPassword = async (req, res) => {
-//     const password = req.body.password;
-//     const token = req.body.token;
+export const resetPassword = async (req: Request, res: Response) => {
+    const password = req.body.password;
+    const token = req.body.token;
 
-//     const existRecord = await User.findOne({
-//         token: token
-//     })
-//     if(!existRecord){
-//         res.json({
-//             code: "error",
-//             message: "Token không hợp lệ!",
-//         })
-//         return;
-//     }
+    const existRecord = await User.findOne({
+        token: token
+    })
+    if(!existRecord){
+        res.json({
+            code: "error",
+            message: "Token không hợp lệ!",
+        })
+        return;
+    }
 
-//     await User.findOne({
-//         token: token,
-//         status: "active",
-//         deleted: false
-//     },{
-//         password: md5(password)
-//     })
-//     res.json({
-//         code: "success",
-//         message: "Đổi mật khẩu thành công!",
-//     })
-// }
+    await User.findOne({
+        token: token,
+        status: "active",
+        deleted: false
+    },{
+        password: md5(password)
+    })
+    res.json({
+        code: "success",
+        message: "Đổi mật khẩu thành công!",
+    })
+}
 
 export const profile = async (req: Request, res: Response) => {
     const token = req.body.token;
