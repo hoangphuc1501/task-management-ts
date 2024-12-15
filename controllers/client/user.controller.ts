@@ -120,30 +120,30 @@ export const forgotPassword = async (req:Request, res: Response) => {
     })
 }
 
-// module.exports.otpPassword = async (req, res) => {
-//     const email = req.body.email;
-//     const otp = req.body.otp;
+export const otpPassword = async (req: Request, res: Response) => {
+    const email = req.body.email;
+    const otp = req.body.otp;
 
-//     const existRecord = await ForgotPassword.findOne({
-//         email: email,
-//         otp: otp
-//     })
-//     if(!existRecord){
-//         res.json({
-//             code: "error",
-//             message: "Mã OTP không hợp lệ!",
-//         })
-//         return;
-//     }
-//     const user = await User.findOne({
-//         email: email
-//     })
-//     res.json({
-//         code: "success",
-//         message: "Mã OTP hợp lệ!",
-//         token: user.token
-//     })
-// }
+    const existRecord = await ForgotPassword.findOne({
+        email: email,
+        otp: otp
+    })
+    if(!existRecord){
+        res.json({
+            code: "error",
+            message: "Mã OTP không hợp lệ!",
+        })
+        return;
+    }
+    const user = await User.findOne({
+        email: email
+    })
+    res.json({
+        code: "success",
+        message: "Mã OTP hợp lệ!",
+        token: user.token
+    })
+}
 
 // module.exports.resetPassword = async (req, res) => {
 //     const password = req.body.password;
