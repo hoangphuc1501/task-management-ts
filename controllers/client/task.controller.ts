@@ -51,3 +51,18 @@ export const detail = async (req: Request, res: Response) => {
     });
     res.json(task);
 };
+
+export const changeMultiPatch = async (req: Request, res: Response) => {
+    const status = req.body.status;
+    const ids = req.body.id
+
+    await Task.updateMany({
+        _id: { $in: ids}
+    },{
+        status: status
+    })
+    res.json({
+        Code: "success",
+        message: "Thành công!"
+    })
+}
