@@ -69,7 +69,7 @@ export const changeMultiPatch = async (req: Request, res: Response) => {
 
 export const createPost = async (req: Request, res: Response) => {
     const data = req.body;
-    
+
     const task = new Task(data);
     await task.save();
 
@@ -77,5 +77,18 @@ export const createPost = async (req: Request, res: Response) => {
         code: "success",
         message: "Tạo mới công việc thành công",
         data: task
+    })
+}
+export const editPatch = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = req.body;
+
+    await Task.updateOne({
+        _id: id
+    }, data);
+
+    res.json({
+        code: "success",
+        message: "cập nhật công việc thành công",
     })
 }
