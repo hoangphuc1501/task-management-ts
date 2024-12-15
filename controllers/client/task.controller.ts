@@ -18,9 +18,24 @@ export const index = async (req: Request, res: Response) => {
         sort[`${req.query.sortKey}`] = req.query.SortValues
     }
     // hết sắp xếp
+    // phần trang
+    let limitItem = 4;
+    let page = 1;
+
+    if(req.query.page) {
+        page = parseInt(`${req.query.page}`);
+    }
+    if(req.query.limit) {
+        limitItem = parseInt(`${req.query.limit}`);
+    }
+    const skip = (page - 1) * limitItem;
+    // hết phần trang
+
     const tasks = await Task
     .find(find)
-    .sort(sort);
+    .sort(sort)
+    .skip(skip)
+    .limit(limitItem);
     res.json(tasks);
 };
 
