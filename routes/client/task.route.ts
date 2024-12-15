@@ -9,5 +9,5 @@ router.get("/detail/:id", controller.detail);
 router.patch("/change-multi", controller.changeMultiPatch);
 router.post("/create", controller.createPost);
 router.patch("/edit/:id", controller.editPatch);
-// router.patch("/delete-multi", controller.deleteMulti);
+router.patch("/delete-multi", controller.deleteMulti);
 export const taskRoute = router

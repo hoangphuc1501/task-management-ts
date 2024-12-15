@@ -92,3 +92,17 @@ export const editPatch = async (req: Request, res: Response) => {
         message: "cập nhật công việc thành công",
     })
 }
+
+export const deleteMulti = async (req: Request, res: Response) => {
+    const ids = req.body.ids;
+
+    await Task.updateMany({
+        _id: {in: ids}
+    },{
+        deleted: true
+    })
+    res.json({
+        code: "success",
+        message: "Xóa thành công!",
+    })
+}
