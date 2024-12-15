@@ -1,5 +1,3 @@
-
-// const Task = require("../../models/task.model");
 import { Request, Response } from "express";
 import { Task } from "../../models/task.model";
 
@@ -30,7 +28,12 @@ export const index = async (req: Request, res: Response) => {
     }
     const skip = (page - 1) * limitItem;
     // hết phần trang
-
+    //tìm kiếm
+    if(req.query.keyword){
+        const regex = new RegExp(`${req.query.keyword}`, "i")
+        find["title"] = regex
+    }
+    // hết tìm kiếm
     const tasks = await Task
     .find(find)
     .sort(sort)
